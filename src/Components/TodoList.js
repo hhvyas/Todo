@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Form from './form';
 import ToDo from './ToDo';
 import '../index.css';
@@ -9,15 +9,15 @@ class TodoList extends React.Component{
         this.state = {
             todos: [],
             todoToShow: "all",
-            selectedB: 'All',
+            selectedB: "all",
         };
     }
     
-    
     componentDidMount() {
         let capture = JSON.parse(localStorage.getItem(ID));
-        console.warn(capture);
-        if (capture === null){
+        let capturee = capture.todos;
+        console.log(capture);
+        if (capturee === null){
             this.setState({
                 todoToShow: "all",
                 todos: [],
@@ -25,11 +25,10 @@ class TodoList extends React.Component{
         }else{
             this.setState({
                 todoToShow: "all",
-                todos: capture,
-            })
+                todos: capturee,
+                })
+            }
         }
-        
-    }
     addTodo = (todo) => {
         let flag = 0;
         for (let i=0;i<todo.text.length;i++){
@@ -38,19 +37,21 @@ class TodoList extends React.Component{
                 break;
             }
         }
-        if (!flag)  return;
-        todo.text = todo.text.trim();
-        if (this.state.todos === null){
+        if (!flag)  return; // If Task is Empty String, Do nothing
+        todo.text = todo.text.trim(); //Trimmed Text
+        if (this.state.todos === null){ // If Todo List is Empty --> Entering for first time / User deletes localstorage data
             this.setState({
                 todos: todo
             });
         }else{
-            this.setState({
+            this.setState({ // If already exists
                 todos: [todo, ...this.state.todos]
             });
         }
-        //alert(this.state.todos);
-           
+        this.setState({
+            selectedB: "all",
+            todoToShow: "all",
+        })
     };
     toggle = (idx, e) => {
         e.preventDefault();
@@ -112,8 +113,8 @@ class TodoList extends React.Component{
     componentDidUpdate(Pp, Ss){
         if (Ss.todos !== this.state.todos){
             localStorage.removeItem(ID);
-            localStorage.setItem(ID, JSON.stringify(this.state.todos));
-        }
+            localStorage.setItem(ID, JSON.stringify(this.state));
+        }   
     }
     update = (e, s) => {
         console.log(e.target.value);
@@ -168,7 +169,7 @@ class TodoList extends React.Component{
         })
     }
 
-  render(){
+  render(){ 
     let todos = [];
     let classNamea = 'midbtn';
     let classNameb = 'midbtn';
@@ -185,7 +186,10 @@ class TodoList extends React.Component{
     }
     return(
       <div>
+          
+          <div className="header">Todo List</div>
         <div className = "Form">
+
         <Form onSubmit={this.addTodo} onClick={this.allCheck} osos={this.state} />
           {todos.map(todo => (
                 <ToDo key = {todo.id} toggle={(e) => this.toggle(todo.id, e)} text={todo.text} complete={todo.complete} todo={todo} Ondelete={() => {   

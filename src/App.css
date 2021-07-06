@@ -8,6 +8,9 @@
 *:focus {
     outline: none;
 }
+.Loading{
+    background-color: black;
+}
 body{
     margin: 0;
     padding: 0;
@@ -29,6 +32,17 @@ body{
 }
 .line{
     text-decoration: line-through;
+    color: rgba(0,0,0,0.5);
+}
+.header{
+    display: grid;
+    justify-content: space-around;
+    text-align: center;
+    margin: auto;
+    width: 40%;
+    font-size: 100px;
+    font-weight: 100;
+    color: rgba(175, 47, 47, 0.15);   
 }
 .circle-toggle{
     min-width: 10%;
@@ -64,8 +78,6 @@ body{
     height: 50px;
     width: 70%;
     padding: 16px 0px 16px 16px;
-}
-.inputboxsubmit{
 }
 .Tasks{
     display: flex;
@@ -122,28 +134,12 @@ button{
 .select{
     border: 1px solid rgba(175, 47, 47, 0.2);
 }
-@media only screen and (max-width: 700px) {
-    .footer{
-        display: grid;
-        justify-content: center;
-        align-items: center;
-    }
-    .firstthree{
-        width: 100%;
-      display: grid;
-      justify-content: center;
-    }
-    .footer > div:nth-child(1) {
-        display: flex;
-        justify-content: center;
-      }
-  }
 input:focus{
     border:none;
 }
 ::-moz-placeholder { /* Firefox 19+ */
     color: gray;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     font-style: italic;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   }
@@ -154,5 +150,80 @@ input:focus{
   
   .footer > div:nth-child(1) {
     padding: 10px;
+  }
+  
+  @media only screen and (max-width: 1100px) {
+    .header{
+        display: grid;
+        justify-content: space-around;
+        text-align: center;
+        margin: auto;
+        width: 70%;
+        font-size: 70px;
+        font-weight: 100;
+        color: rgba(175, 47, 47, 0.15);   
+    }
+    .footer{
+        display: grid;
+        justify-content: center;
+        align-items: center;
+    }
+    .firstthree{
+        width: 100%;
+        display: grid;
+        justify-content: center;
+    }
+    .footer > div:nth-child(1) {
+        display: flex;
+        justify-content: center;
+      }
+      .Form{
+        width: 70%;
+    }
+    .circle-toggle{
+        min-width: 15%;
+    }
+    .editdelbuttons{
+        min-width: 15%;
+    }
+    .inputform > div:nth-child(1) {
+        min-width: 15%;
+    }
+    ::-moz-placeholder { /* Firefox 19+ */
+        color: gray;
+        font-size: 1.2rem;
+        font-style: italic;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      }
+  }
+  @media only screen and (max-width: 650px){
+    .header{
+        display: grid;
+        justify-content: space-around;
+        text-align: center;
+        margin: auto;
+        width: 85%;
+        font-size: 60px;
+        font-weight: 100;
+        color: rgba(175, 47, 47, 0.15);   
+    }
+    .Form{
+        width: 85%;
+    }
+    .circle-toggle{
+        min-width: 15%;
+    }
+    .editdelbuttons{
+        min-width: 15%;
+    }
+    .inputform > div:nth-child(1) {
+        min-width: 15%;
+    }
+    ::-moz-placeholder { /* Firefox 19+ */
+        color: gray;
+        font-size: 1.1rem;
+        font-style: italic;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      }
   }
   
