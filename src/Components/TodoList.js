@@ -1,101 +1,35 @@
 import React from "react";
-import Form from './form';
+import Form from './Form';
 import ToDo from './ToDo';
 import '../index.css';
-const ID = 'TODO_LIST';
 class TodoList extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             todos: [],
             todoToShow: "all",
-            selectedB: "all",
         };
     }
     
-    componentDidMount() {
-        let capture = JSON.parse(localStorage.getItem(ID));
-        let capturee = capture.todos;
-        console.log(capture);
-        if (capturee === null){
-            this.setState({
-                todoToShow: "all",
-                todos: [],
-            })
-        }else{
-            this.setState({
-                todoToShow: "all",
-                todos: capturee,
-                })
-            }
-        }
+    
     addTodo = (todo) => {
-        let flag = 0;
-        for (let i=0;i<todo.text.length;i++){
-            if (todo.text[i] !== ' '){
-                flag = 1;
-                break;
-            }
-        }
-        if (!flag)  return; // If Task is Empty String, Do nothing
-        todo.text = todo.text.trim(); //Trimmed Text
-        if (this.state.todos === null){ // If Todo List is Empty --> Entering for first time / User deletes localstorage data
+        if (!todo.text.trim())  return;
+        todo.text = todo.text.trim(); 
+        if (this.state.todos === null){ 
             this.setState({
-                todos: todo
+                todos: todo,
+                todoToShow: "all"
             });
         }else{
-            this.setState({ // If already exists
-                todos: [todo, ...this.state.todos]
+            this.setState({
+                todos: [todo, ...this.state.todos],
+                todoToShow: "all"
             });
         }
-        this.setState({
-            selectedB: "all",
-            todoToShow: "all",
-        })
     };
     toggle = (idx, e) => {
         e.preventDefault();
-        console.log(e.shiftKey);
-        let index;
-        let choose = 0;
-        if (e.shiftKey){
-            for (let i=0;i<this.state.todos.length;i++){
-                if (this.state.todos[i].id === idx){
-                    if (this.state.todos[i].complete === false){
-                        choose = 1;
-                    }
-                    index = i;
-                    break;
-                }
-            }
-            let WhatToChoose = true;
-
-            if (choose === 0){
-                WhatToChoose = false;
-            }
-            let lastOccur = -1;
-            for (let i=index;i>=0;i--){
-                if (this.state.todos[i].complete === WhatToChoose){
-                    lastOccur = i+1;
-                    break;
-                }
-            }
-                let currIndex = -1;
-                this.setState({
-                    todos: this.state.todos.map(todo => {
-                        currIndex += 1;
-                        if (currIndex < lastOccur || currIndex > index){
-                            return todo;
-                        }else{
-                            return {
-                                ...todo,
-                                complete: WhatToChoose,
-                            }
-                        }
-                    })
-                })
-                // Current index to lastOccur should be checked.
-        }else{
+       
             this.setState({
                 todos: this.state.todos.map(todo => {
                     if (todo.id === idx) {
@@ -108,19 +42,12 @@ class TodoList extends React.Component{
                 }
             })
         })
-        };
     }
-    componentDidUpdate(Pp, Ss){
-        if (Ss.todos !== this.state.todos){
-            localStorage.removeItem(ID);
-            localStorage.setItem(ID, JSON.stringify(this.state));
-        }   
-    }
+
     update = (e, s) => {
         console.log(e.target.value);
         this.setState({
             todoToShow: s,
-            selectedB: e.target.value,
         })
     }
     Updatedelete = (idx) => {
@@ -133,26 +60,12 @@ class TodoList extends React.Component{
             todos: this.state.todos.filter(todo => !todo.complete)
         })
     }
-    OnEdit = (idx) => {
-        let c = prompt();
-        this.setState({
-            todos: this.state.todos.map(todo => {
-                if (todo.id === idx){
-                    return {
-                        ...todo,
-                        text: c
-                    }
-                }else{
-                    return todo;
-                }
-            })
-        })
-    }
+
     
     allCheck = () => {
         let compare = [];
         let flag = 0;
-        this.state.todos.map(todo => compare.push(todo.complete));
+        this.state.todos.forEach(todo => compare.push(todo.complete));
         for (let i=0;i<compare.length;i++){
             if (compare[i] === false){
                 flag = 1;
@@ -185,13 +98,12 @@ class TodoList extends React.Component{
         classNamec += ' select';
     }
     return(
-      <div>
-          
-          <div className="header">Todo List</div>
+      <div>  
+        <div className="header">Todo List</div>
         <div className = "Form">
 
-        <Form onSubmit={this.addTodo} onClick={this.allCheck} osos={this.state} />
-          {todos.map(todo => (
+        <Form onSubmit={this.addTodo} onClick={this.allCheck} />
+          {todos.length > 0 && todos.map(todo => (
                 <ToDo key = {todo.id} toggle={(e) => this.toggle(todo.id, e)} text={todo.text} complete={todo.complete} todo={todo} Ondelete={() => {   
                     this.Updatedelete(todo.id)}
                 }/>
